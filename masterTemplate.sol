@@ -80,7 +80,8 @@ contract masterTemplate is ERC20Upgradeable, ERC20PausableUpgradeable, UUPSUpgra
      * @dev Mint tokens directly to a personal wallet.
      */
     function mintToWallet(address wallet, uint256 amount) external onlyMinter {
-        _mint(wallet, amount);
+        uint256 scaledAmount = amount * (10 ** uint256(decimals()));
+        _mint(wallet, scaledAmount);
     }
 
     /**
@@ -88,8 +89,9 @@ contract masterTemplate is ERC20Upgradeable, ERC20PausableUpgradeable, UUPSUpgra
      * Automatically notifies the DEX to update its internal inventory state.
      */
     function mintToPool(address poolAddress, uint256 amount) external onlyMinter {
-        _mint(poolAddress, amount);
-        IFarmDEX(poolAddress).onTokenMinted(amount);
+        uint256 scaledAmount = amount * (10 ** uint256(decimals()));
+        _mint(poolAddress, scaledAmount);
+        IFarmDEX(poolAddress).onTokenMinted(scaledAmount);
     }
 
     /**
