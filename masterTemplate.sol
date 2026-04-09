@@ -46,9 +46,13 @@ contract masterTemplate is ERC20Upgradeable, ERC20PausableUpgradeable, UUPSUpgra
         __ERC20_init(name, symbol);
         __ERC20Pausable_init();
         __Ownable_init(initialOwner);
-        __UUPSUpgradeable_init();
 
         isMinter[initialOwner] = true;
+    }
+
+    // Whole numbers only
+    function decimals() public view virtual override returns (uint8) {
+        return 0;
     }
 
     /**
@@ -106,4 +110,5 @@ contract masterTemplate is ERC20Upgradeable, ERC20PausableUpgradeable, UUPSUpgra
     }
 
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
+    
 }
